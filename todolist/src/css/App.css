@@ -1,4 +1,22 @@
 .checkbox-wrapper {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+.checkbox-wrapper .checkbox-label {
+  user-select: none;
+  text-decoration: none;
+}
+.checkbox-wrapper .checkbox-label.strike {
+  text-decoration: line-through;
+}
+.checkbox-wrapper .checkbox {
+  margin-right: 20px;
+}
+
+.container {
   width: 100%;
 }
 
