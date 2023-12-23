@@ -7,13 +7,18 @@ type CustomCheckboxProps = {
 const Checkbox = ({
   label,
   name,
+  checked,
   ...props
 }: CustomCheckboxProps & InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <label className="checkbox-wrapper">
-      {label && <span>{label}</span>}
-
       <input className="checkbox" {...props} type="checkbox" />
+
+      {label && (
+        <span className={`checkbox-label ${checked ? "strike" : ""}`}>
+          {label}
+        </span>
+      )}
     </label>
   );
 };
