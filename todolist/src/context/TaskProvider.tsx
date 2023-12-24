@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 
 import { Task } from "../types/types";
 
@@ -16,7 +16,7 @@ export const TaskStore = createContext<TaskProviderType>({
 
 const { Provider } = TaskStore;
 
-const TaskProvider = () => {
+const TaskProvider = ({ children }: { children: ReactNode }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const addTask = (task: Task) => {
@@ -24,10 +24,14 @@ const TaskProvider = () => {
   };
 
   const removeTask = (task: Task) => {
-    setTasks((tasks: Task[]) => tasks.filter((t: Task) => t.id !== task.id));
+    setTasks((tasks: Task[]) =>
+      tasks.map((t) => (t.id === task.id ? { ...t, complete: true } : { ...t }))
+    );
   };
 
-  return <Provider value={{ tasks, addTask, removeTask }} />;
+  return (
+    <Provider value={{ tasks, addTask, removeTask }} children={children} />
+  );
 };
 
 export default TaskProvider;
