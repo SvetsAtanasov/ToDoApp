@@ -3,13 +3,16 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRouter from "./AppRouter";
 
 import "./css/App.css";
+import TaskProvider from "./context/TaskProvider";
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <AppRouter />
-      </Router>
+      <TaskProvider>
+        <Router>
+          <AppRouter />
+        </Router>
+      </TaskProvider>
     </div>
   );
 }
