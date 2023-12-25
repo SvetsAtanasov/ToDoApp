@@ -4,13 +4,17 @@ import { Task } from "../types/types";
 
 type TaskProviderType = {
   addTask: (task: Task) => void;
+  completeTask: (task: Task) => void;
   removeTask: (task: Task) => void;
+  editTask: (task: Task, editedValue: string) => void;
   tasks: Task[];
 };
 
 export const TaskStore = createContext<TaskProviderType>({
   addTask: (task: Task) => {},
+  completeTask: (task: Task) => {},
   removeTask: (task: Task) => {},
+  editTask: (task: Task, editedValue: string) => {},
   tasks: [],
 });
 
@@ -23,14 +27,31 @@ const TaskProvider = ({ children }: { children: ReactNode }) => {
     setTasks((tasks: Task[]) => [...tasks, task]);
   };
 
-  const removeTask = (task: Task) => {
+  const completeTask = (task: Task) => {
     setTasks((tasks: Task[]) =>
       tasks.map((t) => (t.id === task.id ? { ...t, complete: true } : { ...t }))
     );
   };
 
+  const removeTask = (task: Task) => {
+    setTasks((tasks: Task[]) => tasks.filter((t) => t.id !== task.id));
+  };
+
+  const editTask = (task: Task, editedValue: string) => {
+    setTasks((tasks: Task[]) =>
+      tasks.map((t) =>
+        t.id === task.id
+          ? { ...t, description: editedValue, name: editedValue }
+          : { ...t }
+      )
+    );
+  };
+
   return (
-    <Provider value={{ tasks, addTask, removeTask }} children={children} />
+    <Provider
+      value={{ tasks, addTask, completeTask, removeTask, editTask }}
+      children={children}
+    />
   );
 };
 
