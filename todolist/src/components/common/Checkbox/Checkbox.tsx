@@ -1,24 +1,22 @@
 import { InputHTMLAttributes } from "react";
+import Button from "../Button/Button";
 
 type CustomCheckboxProps = {
   label?: string;
+  removeTask: () => void;
 };
 
 const Checkbox = ({
   label,
   name,
-  checked,
+  removeTask,
   ...props
 }: CustomCheckboxProps & InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <label className="checkbox-wrapper">
-      <input className="checkbox" {...props} type="checkbox" />
+      {label && <span>{label}</span>}
 
-      {label && (
-        <span className={`checkbox-label ${checked ? "strike" : ""}`}>
-          {label}
-        </span>
-      )}
+      <input className="checkbox" {...props} type="checkbox" />
     </label>
   );
 };

@@ -2,13 +2,12 @@ import { ChangeEvent, useContext, useState } from "react";
 
 import Button from "../Button/Button";
 import Container from "../Container/Container";
-import Checkbox from "../Checkbox/Checkbox";
 import Input from "../Input/Input";
-
+import TaskWrapper from "./TaskWrapper";
 import { TaskStore } from "../../../context/TaskProvider";
 
 const TaskLayout = () => {
-  const { tasks, addTask, removeTask } = useContext(TaskStore);
+  const { addTask } = useContext(TaskStore);
 
   const [value, setValue] = useState("");
 
@@ -18,40 +17,31 @@ const TaskLayout = () => {
     setValue(value);
   };
 
+  const handleAddTask = () => {
+    if (!value) return;
+
+    addTask({
+      id: (Math.random() + 1).toString(36).substring(7),
+      name: value,
+      description: value,
+      complete: false,
+    });
+
+    setValue("");
+  };
+
   return (
     <Container>
       <Input
         value={value}
         onChange={handleOnChange}
         name="taskName"
-        type="text"
+        placeholder="Task Description"
       />
 
-      <Button
-        onClick={() => {
-          addTask({
-            id: (Math.random() + 1).toString(36).substring(7),
-            name: value,
-            description: value,
-            complete: false,
-          });
-        }}
-      >
-        Add Task
-      </Button>
+      <Button onClick={handleAddTask}>Add Task</Button>
 
-      {tasks.map((task) => (
-        <Checkbox
-          onClick={() => {
-            removeTask(task);
-          }}
-          id={task.id}
-          key={task.id}
-          label={task.description}
-          checked={task.complete}
-          disabled={task.complete}
-        />
-      ))}
+      <TaskWrapper />
     </Container>
   );
 };
